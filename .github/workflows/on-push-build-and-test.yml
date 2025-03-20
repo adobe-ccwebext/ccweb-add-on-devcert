@@ -1,0 +1,25 @@
+name: build and test
+on:
+    pull_request:
+        branches: ["main"]
+        paths: ["openssl-configurations/**/*", "src/**/*", "package.json"]
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 2
+
+            - name: git config user
+              uses: snow-actions/git-config-user@v1.0.0
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+
+            - run: npm install
+
+            - run: npm run build
+            
+            - run: npm run test
